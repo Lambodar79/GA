@@ -9,10 +9,13 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Install dependencies
-        run: |
-          npm install
-          npm ci
+      - name: Cache dependencies   
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-dps--${{ hashFiles('**/package-lock.json') }}
+      - name: Installcache dependencies    
+        run: npm ci
       - name: Lint code
         run: npm run lint
       - name: Test code
